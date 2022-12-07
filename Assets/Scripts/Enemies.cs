@@ -114,11 +114,11 @@ public class Enemy
         }
 
         health *= (1 + ((GameMaster.GetWaveNumber()) * 0.05f));
-        health *= 2; //d
+        //health *= 2; //d
         maxHealth = health;
-        System.Random r = new System.Random(); //d
-        float n = r.Next(3, 10) * 0.1f; //d
-        health *= n; //d
+        //System.Random r = new System.Random(); //d
+        //float n = r.Next(3, 10) * 0.1f; //d
+        //health *= n; //d
         thisEnemyGO.GetComponent<StandardEnemy>().editHealthBar(health, maxHealth);
     }
 
