@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 483f1bbc5a89ec74594f025231f1f484
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - leaderboardText: {instanceID: 0}
+  - difficultySlider: {instanceID: 0}
+  - endlessToggle: {instanceID: 0}
+  - GameMasterGO: {fileID: 7686385373214260221, guid: 70ef5735ab5501b4f84ae674119dc7c2, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
