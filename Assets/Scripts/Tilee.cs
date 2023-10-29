@@ -9,10 +9,13 @@ public class Tile
     private List<Tile> connections = new List<Tile>();
     int danger = 0;
     Vector3 realPos;
-    public Tile(GameObject tileObject, Vector3 pos, Transform parent)
+    int x, y;
+    public Tile(GameObject tileObject, Vector3 pos, Transform parent, int i, int j)
     {
         thisTile = GameObject.Instantiate(tileObject, pos, new Quaternion(0, 0, 0, 0), parent);
         realPos = thisTile.transform.position;
+        x = i;
+        y = j;
     }
     public void SetAsPath()
     {
@@ -34,11 +37,31 @@ public class Tile
     }
     public void IncrementDanger()
     {
-        danger++;
+        danger += 10;
+        if (x <= 1 || y <= 1)
+        {
+            return;
+        }
+        Grid.instance.GetTileAt(x, y - 1).IncrementDangerSmall();
+        Grid.instance.GetTileAt(x - 1, y).IncrementDangerSmall();
+    }
+    public void IncrementDangerSmall()
+    {
+        danger += 1;
     }
     public void DeIncrementDanger()
     {
-        danger--;
+        danger -= 10;
+        if (x <= 1 || y <= 1)
+        {
+            return;
+        }
+        Grid.instance.GetTileAt(x, y - 1).DeIncrementDangerSmall();
+        Grid.instance.GetTileAt(x - 1, y).DeIncrementDangerSmall();
+    }
+    public void DeIncrementDangerSmall()
+    {
+        danger -= 1;
     }
     public int GetDanger()
     {

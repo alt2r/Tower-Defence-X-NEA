@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.UI;
 using System;
 
 public class Turret : MonoBehaviour
@@ -111,6 +110,11 @@ public class Turret : MonoBehaviour
     {
         GameMaster.playerBalance += Convert.ToInt32(Mathf.Floor(sellPrice));
         GameMaster.DeIncrementActiveTowers();
+        foreach (Tile t in tilesMarked)
+        {
+            t.DeIncrementDanger();
+        }
+        tilesMarked.Clear();
         Destroy(gameObject);
     }
 

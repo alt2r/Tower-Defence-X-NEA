@@ -119,7 +119,7 @@ public class Enemy
         //System.Random r = new System.Random(); //d
         //float n = r.Next(3, 10) * 0.1f; //d
         //health *= n; //d
-        thisEnemyGO.GetComponent<StandardEnemy>().editHealthBar(health, maxHealth);
+        //thisEnemyGO.GetComponent<StandardEnemy>().editHealthBar(health, maxHealth);
     }
 
     public void Pink()
@@ -212,6 +212,10 @@ public class Enemy
         GameMaster.playerBalance += moneyDropped;
         GameMaster.enemyList.Remove(this);
         GameMaster.enemiesKilled++;
+        if (boss)
+        {
+            thisEnemyGO.GetComponent<BossEnemy>().RemoveMinionsFromEnemyList(false);
+        }
     }
 
 }

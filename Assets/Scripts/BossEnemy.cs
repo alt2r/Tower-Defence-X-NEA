@@ -16,7 +16,8 @@ public class BossEnemy : MonoBehaviour
     Renderer rend;
     bool iceDebuff = false;
     float iceTimer;
-    
+    List<Enemy> minions = new List<Enemy>();
+    float counter = 100;
 
     public GameObject minionGO;
 
@@ -54,6 +55,14 @@ public class BossEnemy : MonoBehaviour
     }
     void Update()
     {
+        if (counter < 50)
+        {
+            counter += Time.deltaTime;
+        }
+        if (counter > 20 && counter < 40)
+        {
+            RemoveMinionsFromEnemyList(true);
+        }
         if (iceDebuff)
         {
             if (iceTimer <= 0)
@@ -65,11 +74,6 @@ public class BossEnemy : MonoBehaviour
             GameObject effectIns = (GameObject)Instantiate(iceEffect, transform.position, transform.rotation);
             effectIns.transform.localScale = new Vector3(2, 2, 2);
             Destroy(effectIns, 0.25f);
-        }
-
-        if (this.transform.position.y < -400) //if the enemy is in the dead zone(where enemies are moved when tthey die)
-        {
-            Destroy(gameObject);
         }
         Vector3 dir = target.getPosition() - transform.position;
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World); //normalized converts it to a unit vector
@@ -88,13 +92,34 @@ public class BossEnemy : MonoBehaviour
 
     private void SpawnMinions()
     {
+        if (counter != 100)
+        {
+            return;
+        }
         System.Random r = new System.Random();
         for (int i = 0; i < 2; i++)
         {
             Enemy x = new Enemy(minionGO, this.transform.position.x + ((float)r.NextDouble() * 2), this.transform.position.z + ((float)r.NextDouble() * 2), "Grey", waypointIndex);
-
+            minions.Add(x);
             GameMaster.enemyList.Add(x);
         }
+    }
+    public void RemoveMinionsFromEnemyList(bool x)
+    {
+        if (!x)
+        {
+            counter = 0;
+            return;
+        }
+        foreach (Enemy e in minions)
+        {
+            if (e.dead == false)
+            {
+                GameMaster.enemyList.Remove(e);
+            }
+        }
+        minions.Clear();
+            Destroy(gameObject);
     }
 
     void GetNextWaypoint()

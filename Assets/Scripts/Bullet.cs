@@ -36,7 +36,14 @@ public class Bullet : MonoBehaviour
                 nearestEnemy = enemy;
             }
         }
-        nearestEnemy.TakeDamage(dmg);
+        try //there was an issue when two bullets hit an enemy at the same time and the first bullet to run this code killed the enemy, meaning nearest enemy became null. this caused the game to crash. this stops this from happening
+        {
+            nearestEnemy.TakeDamage(dmg);
+        }
+        catch (System.Exception)
+        {
+            
+        }
 
 
         Destroy(gameObject);

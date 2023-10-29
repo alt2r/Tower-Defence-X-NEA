@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
+    //public static GameMaster instance;
     //towers
     public GameObject ballistaTower;
     public GameObject gunpowderTower;
@@ -80,13 +81,13 @@ public class GameMaster : MonoBehaviour
 
     void Awake()
     {
-        //resetting everything that needs to be reset in cas ethis is not the first game the user has played 
+        //resetting everything that needs to be reset in case this is not the first game the user has played 
         hp = 100;
         enemiesKilled = 0;
         activeTowers = 0;
         gameWon = false;
-        playerBalance = 30000; //300
-        playerHealth = 100;
+        playerBalance = 300; //300
+        playerHealth = 100; //100
         activeTurretMenu = false;
         waveFinishedSpawning = true;
         waveNumber = 0; //0
@@ -94,7 +95,7 @@ public class GameMaster : MonoBehaviour
         enemyList = new List<Enemy>();
 
         GenerateLevel();
-        shopPanel = sp; //unity and static stuff dont get along
+        shopPanel = sp; //unity and static stuff dont get along, have to use an extra variable
         turretMenu = turretMenuPrefab;
         popUpBase = popUpp;
         BuildManager bm = new BuildManager(ballistaTower, gunpowderTower, iceTower, fireTower, lightningTower, powerTower);
@@ -132,11 +133,11 @@ public class GameMaster : MonoBehaviour
                         change = "blue";
                         break;
                     case "yellow":
-                        NewPopUp("Yellow", "Yellow enemies are faster than blues, but still don.t have much health. Ballistas and gunpowder towers are effective against yellows.", popUpBase);
+                        NewPopUp("Yellow", "Yellow enemies are faster than blues, but still don't have much health. Ballistas and gunpowder towers are effective against yellows.", popUpBase);
                         change = "yellow";
                         break;
                     case "green":
-                        NewPopUp("Green", "Green enemies are stronger and faster then yellows. Its best to slow them down with an ice tower and then use gunpowders to mow them down.", popUpBase);
+                        NewPopUp("Green", "Green enemies are stronger and faster than yellows. Its best to slow them down with an ice tower and then use gunpowders to mow them down.", popUpBase);
                         change = "green";
                         break;
                     case "red":
@@ -160,7 +161,7 @@ public class GameMaster : MonoBehaviour
                         change = "black";
                         break;
                     case "flying":
-                        NewPopUp("Flying Enemies", "All Blue, Yellow, Green and Red enemies have a chance to spawn as a flying enemy, which fly above the map and their own way to the end. All turret types can damage flying enemies", popUpBase);
+                        NewPopUp("Flying Enemies", "All Blue, Yellow, Green and Red enemies have a chance to spawn as a flying enemy, which fly above the map and make their own way to the end. All turret types can still damage flying enemies", popUpBase);
                         change = "flying";
                         break;
                     default:
@@ -222,7 +223,7 @@ public class GameMaster : MonoBehaviour
                 for (int j = 0; j < 16; j++)
                 {
                     position = new Vector3((i * tilesize2), 0f, (j * tilesize2));
-                    grid.AddToGrid(new Tile(tileGO, position, map.transform), i, j);
+                    grid.AddToGrid(new Tile(tileGO, position, map.transform, i, j), i, j);
                 }
             }
             //16x16 grid is now generated
@@ -431,7 +432,12 @@ public class GameMaster : MonoBehaviour
         }
     }
     //ENEMY SPAWNING
-
+    public void ForceSpawn()
+    {
+        waveFinishedSpawning = true;
+        enemyList.Clear();
+        countdown = 0f;
+    }
     public void WaveSpawner()
     {
         if (waveFinishedSpawning && enemyList.Count == 0)

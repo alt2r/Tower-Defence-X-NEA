@@ -137,7 +137,7 @@ public class tileScript : MonoBehaviour
             rangeShown = turretRange;
             seeRangeBeforePlaced = true;
 
-            //Debug.Log(Grid.instance.GetTileAt(Convert.ToInt32(this.transform.position.x / 4.5f), Convert.ToInt32(this.transform.position.x / 4.5f)).GetDanger());
+            //Debug.Log(Grid.instance.GetTileAt(Convert.ToInt32(this.transform.position.x / 4.5f), Convert.ToInt32(this.transform.position.z / 4.5f)).GetDanger());
         }
     }
     void OnMouseExit() //disable highlight
